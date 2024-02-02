@@ -6,7 +6,7 @@
 /*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:06:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/01/22 16:34:09 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/02/01 18:44:19 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ void	eat(t_philo *philo)
 	messages("has taken a fork", philo);
 	messages("is eating", philo);
 	pthread_mutex_lock(&philo->data->time);
-	pthread_mutex_lock(&philo->data->monitor);
 	philo->last_eat = get_time();
 	philo->eat_count++;
-	pthread_mutex_unlock(&philo->data->monitor);
 	pthread_mutex_unlock(&philo->data->time);
 	ft_usleep(philo->data->t_eat);
 	pthread_mutex_unlock(philo->l_fork);
@@ -37,21 +35,18 @@ void	*monitor(void *args)
 	t_philo	*philo;
 
 	philo = (t_philo *) args;
+	printf("%d\n", philo->finished);
 	while(philo->finished == 0)
 	{
-		pthread_mutex_lock(&philo->data->monitor);
 		if (get_time() - philo->last_eat >= philo->t_die)
 		{
 			philo->finished = 1;
 			messages("died", philo);
 			return (NULL);
 		}
-		pthread_mutex_unlock(&philo->data->monitor);
 		if (philo->eat_count >= philo->data->n_eat)
 		{
-			pthread_mutex_lock(&philo->data->monitor);
 			philo->finished = 1;
-			pthread_mutex_unlock(&philo->data->monitor);
 			return (NULL);
 		}
 	}
