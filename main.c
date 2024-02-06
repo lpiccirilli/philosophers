@@ -6,7 +6,7 @@
 /*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:50:34 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/01 18:31:21 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/02/05 19:13:38 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	write(1, "ciao\n", 5);
 	if (check_args(argc, argv) == -1)
 		return (write(1, "Error: wrong arguments\n", 24));
 	if (init(&data, argv) == -1)

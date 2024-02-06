@@ -7,7 +7,7 @@ SOURCES = main.c\
 OBJECTS = $(SOURCES:.c=.o)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
 
 all: philo
 

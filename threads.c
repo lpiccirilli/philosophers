@@ -6,7 +6,7 @@
 /*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:06:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/01 18:44:19 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/02/05 19:33:28 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,14 @@ void	*monitor(void *args)
 	t_philo	*philo;
 
 	philo = (t_philo *) args;
-	printf("%d\n", philo->finished);
-	while(philo->finished == 0)
+	while (1)
 	{
-		if (get_time() - philo->last_eat >= philo->t_die)
-		{
-			philo->finished = 1;
+		pthread_mutex_lock(&philo->data->time);
+		if (get_time() - philo->last_eat > philo->t_die)
 			messages("died", philo);
-			return (NULL);
-		}
-		if (philo->eat_count >= philo->data->n_eat)
-		{
-			philo->finished = 1;
-			return (NULL);
-		}
+		pthread_mutex_unlock(&philo->data->time);
+		ft_usleep(1);
 	}
-	return (NULL);
 }
 
 void	*routine(void *args)
