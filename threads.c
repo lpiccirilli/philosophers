@@ -6,7 +6,7 @@
 /*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:06:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/05 19:33:28 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/02/08 18:16:23 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	eat(t_philo *philo)
 	messages("has taken a fork", philo);
 	messages("is eating", philo);
 	pthread_mutex_lock(&philo->data->time);
+	pthread_mutex_lock(&philo->eat_lock);
 	philo->last_eat = get_time();
 	philo->eat_count++;
+	pthread_mutex_unlock(&philo->eat_lock);
 	pthread_mutex_unlock(&philo->data->time);
 	ft_usleep(philo->data->t_eat);
 	pthread_mutex_unlock(philo->l_fork);
@@ -29,20 +31,26 @@ void	eat(t_philo *philo)
 	messages("is sleeping", philo);
 	ft_usleep(philo->data->t_sleep);
 }
-
 void	*monitor(void *args)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *) args;
-	while (1)
+	philo = (t_philo *)args;
+	while(philo->data->dead != 1)
 	{
 		pthread_mutex_lock(&philo->data->time);
-		if (get_time() - philo->last_eat > philo->t_die)
+		if (get_time() - philo->last_eat >= philo->t_die)
+		{
+			pthread_mutex_unlock(&philo->data->time);
 			messages("died", philo);
+			pthread_mutex_lock(&philo->data->data);
+			philo->data->dead = 1;
+			pthread_mutex_unlock(&philo->data->data);
+			return (NULL);
+		}
 		pthread_mutex_unlock(&philo->data->time);
-		ft_usleep(1);
 	}
+	return(NULL);
 }
 
 void	*routine(void *args)
@@ -51,13 +59,19 @@ void	*routine(void *args)
 
 	philo = (t_philo *)args;
 	pthread_create(&philo->monitor_id, NULL, &monitor, philo);
-	while (1)
+	while(philo->eat_count != philo->n_eat)
 	{
+		if (philo->data->dead == 1)
+		{
+			printf("vsr");
+			return(NULL);
+		}
+		pthread_mutex_unlock(&philo->data->data);
 		eat(philo);
 		messages("is thinking", philo);
 	}
 	pthread_join(philo->monitor_id, NULL);
-	return (NULL);
+	return(NULL);
 }
 
 int	init_threads(t_data *data)
@@ -65,15 +79,13 @@ int	init_threads(t_data *data)
 	int	i;
 
 	i = -1;
+	data->start_time = get_time();
 	while (++i < data->n_philo)
 	{
-		pthread_mutex_lock(&data->time);
-		data->start_time = get_time();
 		ft_usleep(1);
 		if (pthread_create(&data->thread_id[i],
 				NULL, &routine, &data->philo[i]))
 			return (-1);
-		pthread_mutex_unlock(&data->time);
 	}
 	i = -1;
 	while (++i < data->n_philo)

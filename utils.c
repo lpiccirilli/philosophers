@@ -6,7 +6,7 @@
 /*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:09:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/05 19:26:42 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/02/08 11:32:57 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,9 @@ void	messages(char *str, t_philo *philo)
 	time = get_time() - philo->data->start_time;
 	pthread_mutex_unlock(&philo->data->time);
 	if (ft_strcmp("died", str) == 0)
-	{
-		pthread_mutex_lock(&philo->data->monitor);
 		printf("%llu %d %s\n", time, philo->id, str);
-		pthread_mutex_unlock(&philo->data->monitor);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->data->monitor);
-		if (philo->finished != 1)
-			printf("%llu %d %s\n", time, philo->id, str);
-		pthread_mutex_unlock(&philo->data->monitor);
-	}
+	pthread_mutex_lock(&philo->data->data);
+	if (philo->data->dead == 0)
+		printf("%llu %d %s\n", time, philo->id, str);
+	pthread_mutex_unlock(&philo->data->data);
 }

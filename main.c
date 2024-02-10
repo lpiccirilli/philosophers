@@ -6,7 +6,7 @@
 /*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:50:34 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/05 19:13:38 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/02/08 11:46:25 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@ void	free_data(t_data *data)
 	int	i;
 
 	i = 0;
-	while (i < data->n_philo)
-		pthread_mutex_destroy(&data->forks[i++]);
-	pthread_mutex_destroy(&data->monitor);
+	while (i++ < data->n_philo)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->philo[i].eat_lock);
+	}
 	pthread_mutex_destroy(&data->time);
+	pthread_mutex_destroy(&data->data);
 	if (data->thread_id)
 		free(data->thread_id);
 	if (data->philo)

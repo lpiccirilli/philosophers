@@ -6,7 +6,7 @@
 /*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:46:57 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/01/09 18:19:19 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/02/08 11:56:40 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <stdbool.h>
 # include <unistd.h>
 
+#define RED "\033[34m"
+#define RESET   "\033[0m"
+
 struct	s_data;
 
 typedef struct s_philo
@@ -28,7 +31,8 @@ typedef struct s_philo
 	int				id;
 	int				eat_count;
 	int				eating;
-	int				finished;
+	int				n_eat;
+	int				died;
 	u_int64_t		last_eat;
 	u_int64_t		t_die;
 	pthread_t		monitor_id;
@@ -50,8 +54,8 @@ typedef struct s_data
 	pthread_t			*thread_id;
 	t_philo				*philo;
 	pthread_mutex_t		*forks;
+	pthread_mutex_t		data;
 	pthread_mutex_t		time;
-	pthread_mutex_t		monitor;
 }	t_data;
 
 int			check_args(int argc, char **argv);

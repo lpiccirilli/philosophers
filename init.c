@@ -6,7 +6,7 @@
 /*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 17:35:15 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/01 18:23:47 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/02/08 11:26:23 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void	init_data(t_data *data, char **argv)
 	data->t_die = (uint64_t)ft_atoi(argv[2]);
 	data->t_eat = (uint64_t)ft_atoi(argv[3]);
 	data->t_sleep = (uint64_t)ft_atoi(argv[4]);
-	data->enough = 0;
+	data->dead = 0;
 	if (argv[5])
 		data->n_eat = ft_atoi(argv[5]);
 	else
 		data->n_eat = -1;
+	pthread_mutex_init(&data->data, NULL);
 	pthread_mutex_init(&data->time, NULL);
-	pthread_mutex_init(&data->monitor, NULL);
 }
 
 int	alloc(t_data *data)
@@ -72,9 +72,8 @@ int	init_philo_data(t_data *data)
 		data->philo[i].t_die = data->t_die;
 		data->philo[i].last_eat = get_time();
 		data->philo[i].eating = 0;
-		data->philo[i].finished = 0;
-		if (pthread_mutex_init (&data->philo[i].eat_lock, NULL))
-			return (-1);
+		data->philo[i].n_eat = data->n_eat;
+		data->philo[i].died = 0;
 		i++;
 	}
 	return (0);
