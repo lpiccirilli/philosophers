@@ -6,11 +6,12 @@
 /*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:09:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/10 21:07:41 by luca             ###   ########.fr       */
+/*   Updated: 2024/02/12 20:15:39 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <sys/types.h>
 
 long	ft_atoi(const char *str)
 {
@@ -68,17 +69,16 @@ u_int64_t	get_time(void)
 
 void	messages(char *str, t_philo *philo)
 {
-	#include <stdint.h>
-
 	u_int64_t	time;
 
-	pthread_mutex_lock(&philo->data->time);
 	time = get_time() - philo->data->start_time;
-	pthread_mutex_unlock(&philo->data->time);
-	if (ft_strcmp("died", str) == 0)
+	pthread_mutex_lock(&philo->data->data);
+	if (ft_strcmp("died", str) == 0 && philo->data->died == 0)
+	{
+		philo->data->died = 1;
+		printf("%lu %d %s\n", time, philo->id, str);
+	}
+	else if (philo->data->died == 0)
 		printf("%lu %d %s\n", time, philo->id, str);
 	pthread_mutex_lock(&philo->data->data);
-	if (philo->data->dead == 0)
-		printf("%lu %d %s\n", time, philo->id, str);
-	pthread_mutex_unlock(&philo->data->data);
 }

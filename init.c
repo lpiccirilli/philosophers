@@ -6,7 +6,7 @@
 /*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 17:35:15 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/10 21:45:21 by luca             ###   ########.fr       */
+/*   Updated: 2024/02/12 19:39:12 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@ void	init_data(t_data *data, char **argv)
 	data->t_die = (uint64_t)ft_atoi(argv[2]);
 	data->t_eat = (uint64_t)ft_atoi(argv[3]);
 	data->t_sleep = (uint64_t)ft_atoi(argv[4]);
-	data->dead = 0;
 	if (argv[5])
 		data->n_eat = ft_atoi(argv[5]);
 	else
 		data->n_eat = -1;
-	pthread_mutex_init(&data->data, NULL);
+	data->died = 0;
 	pthread_mutex_init(&data->time, NULL);
 }
 
@@ -66,14 +65,14 @@ int	init_philo_data(t_data *data)
 	i = 0;
 	while (i < data->n_philo)
 	{
-		data->philo[i].data = data;
 		data->philo[i].id = i + 1;
 		data->philo[i].eat_count = 0;
 		data->philo[i].t_die = data->t_die;
+		data->philo[i].t_eat = data->t_eat;
+		data->philo[i].t_sleep = data->t_sleep;
 		data->philo[i].last_eat = get_time();
-		data->philo[i].eating = 0;
 		data->philo[i].n_eat = data->n_eat;
-		data->philo[i].died = 0;
+		data->philo[i].data = data;
 		i++;
 	}
 	return (0);
@@ -92,5 +91,6 @@ int	init(t_data *data, char **argv)
 		return (case_one(data));
 	if (init_threads(data) == -1)
 		return (-1);
+	free_data(data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:50:34 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/10 21:47:48 by luca             ###   ########.fr       */
+/*   Updated: 2024/02/11 16:01:30 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,5 @@ int	main(int argc, char **argv)
 		return (write(1, "Error: wrong arguments\n", 24));
 	if (init(&data, argv) == -1)
 		return (printf("Error: init_data\n"));
-	ft_usleep(1000);
 	return (0);
 }
