@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:50:34 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/08 11:46:25 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/02/10 21:47:48 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ void	free_data(t_data *data)
 	pthread_mutex_destroy(&data->data);
 	if (data->thread_id)
 		free(data->thread_id);
-	if (data->philo)
-		free(data->philo);
 	if (data->forks)
 		free(data->forks);
 }
@@ -50,5 +48,6 @@ int	main(int argc, char **argv)
 		return (write(1, "Error: wrong arguments\n", 24));
 	if (init(&data, argv) == -1)
 		return (printf("Error: init_data\n"));
+	ft_usleep(1000);
 	return (0);
 }

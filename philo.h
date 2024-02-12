@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:46:57 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/08 11:56:40 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/02/10 20:32:54 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <sys/time.h>
 # include <stdbool.h>
 # include <unistd.h>
+# include <stdint.h>
 
 #define RED "\033[34m"
 #define RESET   "\033[0m"

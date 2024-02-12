@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:06:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/08 18:16:23 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/02/10 21:43:40 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	eat(t_philo *philo)
 {
-	pthread_mutex_lock(philo->r_fork);
 	pthread_mutex_lock(philo->l_fork);
+	pthread_mutex_lock(philo->r_fork);
 	messages("has taken a fork", philo);
 	messages("has taken a fork", philo);
 	messages("is eating", philo);
@@ -36,19 +36,21 @@ void	*monitor(void *args)
 	t_philo	*philo;
 
 	philo = (t_philo *)args;
-	while(philo->data->dead != 1)
+	while(1)
 	{
 		pthread_mutex_lock(&philo->data->time);
-		if (get_time() - philo->last_eat >= philo->t_die)
+		if (get_time() - philo->last_eat > philo->t_die)
 		{
 			pthread_mutex_unlock(&philo->data->time);
 			messages("died", philo);
 			pthread_mutex_lock(&philo->data->data);
 			philo->data->dead = 1;
 			pthread_mutex_unlock(&philo->data->data);
-			return (NULL);
+			return(NULL);
 		}
 		pthread_mutex_unlock(&philo->data->time);
+		ft_usleep(1000);
+	
 	}
 	return(NULL);
 }
@@ -61,9 +63,10 @@ void	*routine(void *args)
 	pthread_create(&philo->monitor_id, NULL, &monitor, philo);
 	while(philo->eat_count != philo->n_eat)
 	{
+		pthread_mutex_lock(&philo->data->data);
 		if (philo->data->dead == 1)
 		{
-			printf("vsr");
+			pthread_mutex_unlock(&philo->data->data);
 			return(NULL);
 		}
 		pthread_mutex_unlock(&philo->data->data);

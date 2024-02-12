@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 17:35:15 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/08 11:26:23 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/02/10 21:45:21 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,5 @@ int	init(t_data *data, char **argv)
 		return (case_one(data));
 	if (init_threads(data) == -1)
 		return (-1);
-	free_data(data);
 	return (0);
 }
