@@ -6,7 +6,7 @@
 /*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 17:35:15 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/12 19:39:12 by luca             ###   ########.fr       */
+/*   Updated: 2024/02/13 11:42:23 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_data(t_data *data, char **argv)
 	else
 		data->n_eat = -1;
 	data->died = 0;
-	pthread_mutex_init(&data->time, NULL);
+	pthread_mutex_init(&data->died_lock, NULL);
 }
 
 int	alloc(t_data *data)

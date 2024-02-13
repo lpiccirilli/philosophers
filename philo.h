@@ -6,7 +6,7 @@
 /*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:46:57 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/12 19:38:56 by luca             ###   ########.fr       */
+/*   Updated: 2024/02/13 11:42:32 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_data
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		data;
 	pthread_mutex_t		time;
+	pthread_mutex_t		died_lock;
 }	t_data;
 
 int			check_args(int argc, char **argv);

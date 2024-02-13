@@ -6,7 +6,7 @@
 /*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:06:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/12 19:38:41 by luca             ###   ########.fr       */
+/*   Updated: 2024/02/13 11:50:40 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*monitor(void *arg)
 	while(1)
 	{
 		pthread_mutex_lock(&philo->eat_lock);
-		if (get_time() - philo->last_eat > philo->t_die)
+		if (get_time() - philo->last_eat > philo->t_die || philo->n_eat == philo->eat_count)
 		{
 			pthread_mutex_unlock(&philo->eat_lock);
 			messages("died", philo);
@@ -48,6 +48,7 @@ void	eat(t_philo *philo)
 	messages("is sleeping", philo);
 	ft_usleep(philo->t_sleep);
 	messages("is thinking", philo);
+	return ;
 }
 
 void	*routine(void *args)
@@ -56,7 +57,7 @@ void	*routine(void *args)
 
 	philo = (t_philo *)args;
 	if (philo->id % 2)
-		ft_usleep(1);
+		ft_usleep(2);
 	pthread_create(&philo->monitor_id, NULL, &monitor, philo);
 	while(philo->n_eat != philo->eat_count)
 	{

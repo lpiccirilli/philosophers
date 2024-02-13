@@ -6,7 +6,7 @@
 /*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:50:34 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/11 16:01:30 by luca             ###   ########.fr       */
+/*   Updated: 2024/02/13 11:40:21 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,13 @@ void	free_data(t_data *data)
 		pthread_mutex_destroy(&data->forks[i]);
 		pthread_mutex_destroy(&data->philo[i].eat_lock);
 	}
-	pthread_mutex_destroy(&data->time);
 	pthread_mutex_destroy(&data->data);
 	if (data->thread_id)
 		free(data->thread_id);
 	if (data->forks)
 		free(data->forks);
+	if (data->philo)
+		free(data->philo);
 }
 
 int	main(int argc, char **argv)
