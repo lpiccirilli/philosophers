@@ -6,7 +6,7 @@
 /*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 17:35:15 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/13 11:42:23 by luca             ###   ########.fr       */
+/*   Updated: 2024/02/28 18:28:01 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	init_philo_data(t_data *data)
 		data->philo[i].last_eat = get_time();
 		data->philo[i].n_eat = data->n_eat;
 		data->philo[i].data = data;
+		pthread_mutex_init(&data->philo[i].eat_lock, NULL);
 		i++;
 	}
 	return (0);
@@ -91,6 +92,5 @@ int	init(t_data *data, char **argv)
 		return (case_one(data));
 	if (init_threads(data) == -1)
 		return (-1);
-	free_data(data);
 	return (0);
 }

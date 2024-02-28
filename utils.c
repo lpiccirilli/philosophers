@@ -6,12 +6,11 @@
 /*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:09:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/13 11:51:44 by luca             ###   ########.fr       */
+/*   Updated: 2024/02/28 18:28:55 by luca             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <sys/types.h>
 
 long	ft_atoi(const char *str)
 {
@@ -71,19 +70,17 @@ void	messages(char *str, t_philo *philo)
 {
 	u_int64_t	time;
 
-	pthread_mutex_lock(&philo->data->data);
-	if (ft_strcmp("died", str) == 0 && philo->data->died == 0)
+	time = get_time() - philo->data->start_time;
+	pthread_mutex_lock(&philo->data->died_lock);
+	if (ft_strcmp(str, "died") != 0 && philo->data->died == 0)
+		printf("%lu %d %s\n", time, philo->id, str);
+	if(ft_strcmp(str, "died") == 0 && philo->data->died == 0)
 	{
 		philo->data->died = 1;
-		time = get_time() - philo->data->start_time;
-		printf("%lu %d %s\n", time, philo->id, str);
-	}
-	else if (philo->data->died == 0)
-	{
-		pthread_mutex_lock(&philo->data->died_lock);
-		time = get_time() - philo->data->start_time;
 		printf("%lu %d %s\n", time, philo->id, str);
 		pthread_mutex_unlock(&philo->data->died_lock);
+		return ;
 	}
-	pthread_mutex_lock(&philo->data->data);
+	pthread_mutex_unlock(&philo->data->died_lock);
+	return ;
 }
