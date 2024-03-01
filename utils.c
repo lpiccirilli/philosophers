@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lpicciri <lpicciri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:09:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/28 18:28:55 by luca             ###   ########.fr       */
+/*   Updated: 2024/03/01 14:27:17 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ void	messages(char *str, t_philo *philo)
 
 	time = get_time() - philo->data->start_time;
 	pthread_mutex_lock(&philo->data->died_lock);
-	if (ft_strcmp(str, "died") != 0 && philo->data->died == 0)
-		printf("%lu %d %s\n", time, philo->id, str);
-	if(ft_strcmp(str, "died") == 0 && philo->data->died == 0)
+	if (ft_strcmp (str, "died") != 0 && philo->data->died == 0)
+		printf("%llu %d %s\n", time, philo->id, str);
+	if (ft_strcmp (str, "died") == 0 && philo->data->died == 0)
 	{
 		philo->data->died = 1;
-		printf("%lu %d %s\n", time, philo->id, str);
+		printf("%llu %d %s\n", time, philo->id, str);
 		pthread_mutex_unlock(&philo->data->died_lock);
 		return ;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lpicciri <lpicciri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:06:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/28 18:52:35 by luca             ###   ########.fr       */
+/*   Updated: 2024/03/01 14:34:08 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,11 @@ void	*monitor(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while(philo->data->died == 0)
+	while (philo->data->died == 0)
 	{
 		pthread_mutex_lock(&philo->eat_lock);
 		if (get_time() - philo->last_eat > philo->t_die)
 		{
-			philo->died = 1;
 			messages("died", philo);
 			pthread_mutex_unlock(&philo->eat_lock);
 			return (NULL);
@@ -33,7 +32,7 @@ void	*monitor(void *arg)
 }
 
 void	eat(t_philo *philo)
-{ 
+{
 	pthread_mutex_lock(philo->l_fork);
 	messages("has taken a fork", philo);
 	pthread_mutex_lock(philo->r_fork);
@@ -56,17 +55,20 @@ void	*routine(void *args)
 	t_philo	*philo;
 
 	philo = (t_philo *)args;
-	if (philo->id % 2)
+	if (philo->id % 2 == 0)
 		ft_usleep(1);
 	pthread_create(&philo->monitor_id, NULL, &monitor, philo);
-	while(1)
+	while (1)
 	{
 		if (philo->eat_count == philo->n_eat || philo->data->died == 1)
+		{
+			pthread_join(philo->monitor_id, NULL);
 			return (NULL);
+		}
 		eat(philo);
 	}
 	pthread_join(philo->monitor_id, NULL);
-	return(NULL);
+	return (NULL);
 }
 
 int	init_threads(t_data *data)

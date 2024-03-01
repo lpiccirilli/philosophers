@@ -3,21 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lpicciri <lpicciri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:50:34 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/28 19:06:37 by luca             ###   ########.fr       */
+/*   Updated: 2024/03/01 13:58:50 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+void	*ciao(void *args)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)args;
+	philo->data->start_time = get_time();
+	messages ("has taken a fork", philo);
+	ft_usleep(philo->t_die);
+	printf("%llu %d died\n", philo->t_die, philo->id);
+	return (NULL);
+}
+
 int	case_one(t_data *data)
 {
+	pthread_t	one;
+
 	data->start_time = get_time();
-	if (pthread_create(&data->thread_id[0], NULL, &routine, &data->philo[0]))
+	if (pthread_create(&one, NULL, &ciao, &data->philo[0]))
 		return (-1);
-	pthread_detach(data->thread_id[0]);
+	pthread_join(one, NULL);
 	return (0);
 }
 

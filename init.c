@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lpicciri <lpicciri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 17:35:15 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/28 18:28:01 by luca             ###   ########.fr       */
+/*   Updated: 2024/02/29 15:41:18 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	alloc(t_data *data)
 
 	i = 0;
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->n_philo);
-	while(i < data->n_philo)
+	while (i < data->n_philo)
 	{
 		pthread_mutex_init(&data->forks[i], NULL);
 		i++;

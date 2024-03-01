@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luca <luca@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: lpicciri <lpicciri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:46:57 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/02/13 11:42:32 by luca             ###   ########.fr       */
+/*   Updated: 2024/03/01 14:27:27 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,6 @@ void		messages(char *str, t_philo *philo);
 int			ft_strcmp(char *s1, char *s2);
 int			case_one(t_data *data);
 void		*monitor(void *args);
+void		*ciao(void *arg);
 
 #endif
