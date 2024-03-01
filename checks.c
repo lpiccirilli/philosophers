@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lpicciri <lpicciri@student.42roma.it>      +#+  +:+       +#+        */
+/*   By: lpicciri <lpicciri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:47:32 by lpicciri          #+#    #+#             */
-/*   Updated: 2023/06/18 16:43:03 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:59:36 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,26 @@ int	ft_strcmp(char *s1, char *s2)
 		s2++;
 	}
 	return (*(char *)s1 - *(char *)s2);
+}
+
+void	*ciao(void *args)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)args;
+	messages ("has taken a fork", philo);
+	ft_usleep(philo->t_die + 1);
+	printf("%llu %d died\n", philo->t_die, philo->id);
+	return (NULL);
+}
+
+int	case_one(t_data *data)
+{
+	pthread_t	one;
+
+	data->start_time = get_time();
+	if (pthread_create(&one, NULL, &ciao, &data->philo[0]))
+		return (-1);
+	pthread_join(one, NULL);
+	return (0);
 }

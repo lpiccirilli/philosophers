@@ -6,7 +6,7 @@
 /*   By: lpicciri <lpicciri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 15:46:57 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/03/01 14:27:27 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/03/01 15:05:30 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int			init_threads(t_data *data);
 void		init_data(t_data *data, char **argv);
 int			alloc(t_data *data);
 void		eat(t_philo *philo);
-int			ft_usleep(useconds_t time);
+int			ft_usleep(u_int64_t time);
 u_int64_t	get_time(void);
 void		*routine(void *arg);
 void		free_data(t_data *data);

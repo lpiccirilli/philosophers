@@ -6,7 +6,7 @@
 /*   By: lpicciri <lpicciri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 17:09:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/03/01 14:27:17 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:05:09 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ bool	is_in_strings(char c, char *str)
 	return (false);
 }
 
-int	ft_usleep(useconds_t time)
+int	ft_usleep(u_int64_t time)
 {
 	u_int64_t	start;
 
@@ -70,17 +70,17 @@ void	messages(char *str, t_philo *philo)
 {
 	u_int64_t	time;
 
+	pthread_mutex_lock(&philo->eat_lock);
 	time = get_time() - philo->data->start_time;
-	pthread_mutex_lock(&philo->data->died_lock);
 	if (ft_strcmp (str, "died") != 0 && philo->data->died == 0)
 		printf("%llu %d %s\n", time, philo->id, str);
 	if (ft_strcmp (str, "died") == 0 && philo->data->died == 0)
 	{
 		philo->data->died = 1;
 		printf("%llu %d %s\n", time, philo->id, str);
-		pthread_mutex_unlock(&philo->data->died_lock);
+		pthread_mutex_unlock(&philo->eat_lock);
 		return ;
 	}
-	pthread_mutex_unlock(&philo->data->died_lock);
+	pthread_mutex_unlock(&philo->eat_lock);
 	return ;
 }

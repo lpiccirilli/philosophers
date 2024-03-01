@@ -6,7 +6,7 @@
 /*   By: lpicciri <lpicciri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:06:12 by lpicciri          #+#    #+#             */
-/*   Updated: 2024/03/01 14:34:08 by lpicciri         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:07:36 by lpicciri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void	*monitor(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (philo->data->died == 0)
+	while (1)
 	{
 		pthread_mutex_lock(&philo->eat_lock);
 		if (get_time() - philo->last_eat > philo->t_die)
 		{
-			messages("died", philo);
 			pthread_mutex_unlock(&philo->eat_lock);
+			messages("died", philo);
 			return (NULL);
 		}
 		pthread_mutex_unlock(&philo->eat_lock);
@@ -55,9 +55,9 @@ void	*routine(void *args)
 	t_philo	*philo;
 
 	philo = (t_philo *)args;
-	if (philo->id % 2 == 0)
-		ft_usleep(1);
 	pthread_create(&philo->monitor_id, NULL, &monitor, philo);
+	if (philo->id % 2 == 0)
+		ft_usleep(10);
 	while (1)
 	{
 		if (philo->eat_count == philo->n_eat || philo->data->died == 1)
